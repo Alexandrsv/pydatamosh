@@ -61,8 +61,20 @@ parser.add_argument('--output_width',     default = output_width,     type=int, 
 parser.add_argument('--fps',              default = fps,              type=int,   help="The number of frames per second the initial video is converted to before moshing.")
 parser.add_argument('--output_dir',       default = output_directory, type=confirm_output_directory, help="Output directory")
 
+
+
 # this makes sure the local variables are up to date after all the argparsing
 locals().update( parser.parse_args().__dict__.items() )
+
+file_postfix = '_' + str(start_sec) + '_' +\
+					str(end_sec) + '_' +\
+					str(start_effect_sec) + '_' +\
+					str(end_effect_sec) + '_' +\
+					str(repeat_p_frames) + '_' +\
+					str(output_width) + '_' +\
+					str(fps) + '_' +\
+					str(output_directory)
+
 
 # programs get real mad if a video is an odd number of pixels wide (or in height)
 if output_width % 2 != 0: output_width += 1
@@ -84,7 +96,7 @@ if start_effect_sec > end_effect_sec:
 # where we make new file names
 # basename seperates the file name from the directory it's in so /home/user/you/video.mp4 becomes video.mp4
 # splitext short for "split extension" splits video.mp4 into a list ['video','.mp4'] and [0] returns 'video' to file_name
-file_name = os.path.splitext( os.path.basename(input_video) )[0]
+file_name = os.path.splitext( os.path.basename(input_video) )[0] + file_postfix
 # path.join pushes the directory and file name together and makes sure there's a / between them
 input_avi =  os.path.join(output_dir, 'datamoshing_input.avi')			# must be an AVI so i-frames can be located in binary file
 output_avi = os.path.join(output_dir, 'datamoshing_output.avi')
@@ -226,5 +238,3 @@ os.remove(output_avi)
      # glitching on company time.
      # Also I'm not obligated to help you fix or change the code but if your request is reasonable I probably will.
      # For instance, demanding that I program the next Facebook for free would be an unreasonable request.
-
-
