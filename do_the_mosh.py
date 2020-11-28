@@ -14,6 +14,8 @@ output_directory = 'moshed_videos'
 		# - designator for beginning of an i-frame: 0x0001B0
 		# - designator for the end of every frame type: 0x30306463 (usually referenced as ASCII 00dc)
 
+#Для запуска с разными параметрами
+#for i in {4..50..3}; do ses=`shuf -i 2-15 -n 1`; python3 do_the_mosh.py --repeat_p_frames $i --start_effect_sec $ses --end_effect_sec 99 tiktokvideo_1606567357.mp4; done
 
 # now we get everything set up to make the video file
 
@@ -49,7 +51,7 @@ def confirm_output_directory(output_directory):
 
 # 'parser' is the name of our new parser which checks the variables we give it to make sure they will probably work 
 # or else offer helpful errors and tips to the user at the command line
-parser = argparse.ArgumentParser() 
+parser = argparse.ArgumentParser()
 
 parser.add_argument('input_video', type=quit_if_no_video_file, help="File to be moshed")
 parser.add_argument('--start_sec',        default = start_sec,        type=float, help="Time the video starts on the original footage's timeline. Trims preceding footage.")
@@ -66,14 +68,14 @@ parser.add_argument('--output_dir',       default = output_directory, type=confi
 # this makes sure the local variables are up to date after all the argparsing
 locals().update( parser.parse_args().__dict__.items() )
 
-file_postfix = '_' + str(start_sec) + '_' +\
-					str(end_sec) + '_' +\
-					str(start_effect_sec) + '_' +\
-					str(end_effect_sec) + '_' +\
-					str(repeat_p_frames) + '_' +\
-					str(output_width) + '_' +\
-					str(fps) + '_' +\
-					str(output_directory)
+file_postfix = '_ss' + str(start_sec) + '_' +\
+				'es' + str(end_sec) + '_' +\
+				'ses' + str(start_effect_sec) + '_' +\
+				'ees' + str(end_effect_sec) + '_' +\
+				'rpf' + str(repeat_p_frames) + '_' +\
+				'ow' + str(output_width) + '_' +\
+				'fps' + str(fps) + '_'
+
 
 
 # programs get real mad if a video is an odd number of pixels wide (or in height)
@@ -232,9 +234,9 @@ os.remove(output_avi)
      # the code was adapted from https://github.com/amgadani/Datamosh-python/blob/master/standard.py by @amgadani
      # which was adapted from https://github.com/grampajoe/Autodatamosh/blob/master/autodatamosh.pl by @joefriedl
 
-     # Here comes the disclaimer. This code is under the MIT License. 
+     # Here comes the disclaimer. This code is under the MIT License.
      # Basically you can include this code in commercial or personal projects and you're welcome to edit the code.
-     # If it breaks anything it's not my fault and I don't have to help you fix the work computer you broke while 
+     # If it breaks anything it's not my fault and I don't have to help you fix the work computer you broke while
      # glitching on company time.
      # Also I'm not obligated to help you fix or change the code but if your request is reasonable I probably will.
      # For instance, demanding that I program the next Facebook for free would be an unreasonable request.
